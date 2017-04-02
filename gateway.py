@@ -3,11 +3,13 @@
 import sys
 import serial
 from clients.temperature import Temperature
+from clients.valves import Valves
 
 baud_rate = 115200
 
 clients = [
-    Temperature
+    Temperature,
+    Valves
 ]
 
 
@@ -35,7 +37,6 @@ class Gateway:
                 client.destroy()
 
     def write(self, message):
-        self.ser.write('M'.encode('utf-8'))
         self.ser.write(message.encode('utf-8'))
         self.ser.write('\n'.encode('utf-8'))
         self.ser.flush()

@@ -1,2 +1,5 @@
 /.idea
-/clients/*.pyc
+/**/*.pyc
+/**/*.*~
+/**/__pycache__
+/config.ini

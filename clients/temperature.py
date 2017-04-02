@@ -14,13 +14,13 @@ class Temperature:
 
     def execute(self, payload):
         self.payload = payload
-        if self.parse(payload):
+        if self.parse():
             self.write_to_file()
 
-    def parse(self, payload):
-        if len(payload) > 3 and payload[1].find('T/') == 0:
-            self.batt = payload[1].split('/')[1].strip()
-            self.temp = payload[1].split('/')[2].strip()
+    def parse(self):
+        if len(self.payload) > 3 and self.payload[1].find('T/') == 0:
+            self.batt = self.payload[1].split('/')[1].strip()
+            self.temp = self.payload[1].split('/')[2].strip()
             return True
         return False
 
