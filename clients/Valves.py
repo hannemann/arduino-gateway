@@ -1,4 +1,4 @@
-from clients.db import Db, sqlite3
+from clients.Db import Db, sqlite3
 from config import config
 
 

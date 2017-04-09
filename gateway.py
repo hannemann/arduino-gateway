@@ -1,21 +1,36 @@
 #!/usr/bin/env python
 
 import sys
-import serial
-from clients.temperature import Temperature
-from clients.valves import Valves
+import serial.tools.list_ports
+from clients.Temperature import Temperature
+from clients.Valves import Valves
+from clients.Pilight import Pilight
+from config import config
 
 baud_rate = 115200
 
 clients = [
     Temperature,
-    Valves
+    Valves,
+    Pilight
 ]
 
 
 class Gateway:
 
-    def __init__(self, device):
+    def __init__(self):
+
+        arduino = config.get("arduino", "serial")
+        device = None
+        ports = list(serial.tools.list_ports.comports())
+        for p in ports:
+            if arduino == p.serial_number:
+                device = p.device
+
+        if device is None:
+            print('Arduino with serial number {} not found'.format(arduino))
+            sys.exit(1)
+
         self.ser = serial.Serial(device, baud_rate)
         self.ser.flushInput()
         self.ser.flushOutput()
@@ -42,8 +57,8 @@ class Gateway:
         self.ser.flush()
 
 
-def main(argv):
-    Gateway(argv[0]).run()
+def main():
+    Gateway().run()
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
