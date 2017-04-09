@@ -18,18 +18,18 @@ clients = [
 
 class Gateway:
 
-    def __init__(self):
-
-        arduino = config.get("arduino", "serial")
-        device = None
-        ports = list(serial.tools.list_ports.comports())
-        for p in ports:
-            if arduino == p.serial_number:
-                device = p.device
+    def __init__(self, device):
 
         if device is None:
-            print('Arduino with serial number {} not found'.format(arduino))
-            sys.exit(1)
+            arduino = config.get("arduino", "serial")
+            ports = list(serial.tools.list_ports.comports())
+            for p in ports:
+                if arduino == p.serial_number:
+                    device = p.device
+
+            if device is None:
+                print('Arduino with serial number {} not found'.format(arduino))
+                sys.exit(1)
 
         self.ser = serial.Serial(device, baud_rate)
         self.ser.flushInput()
@@ -57,8 +57,8 @@ class Gateway:
         self.ser.flush()
 
 
-def main():
-    Gateway().run()
+def main(argv):
+    Gateway(argv[0]).run()
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
