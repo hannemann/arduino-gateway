@@ -100,13 +100,13 @@ class Pilight(threading.Thread):
                 temp = temp.strip(chr(0))
                 volts = "{:.2f}".format(float(self.batt))
                 volts = volts.strip(chr(0))
-		timestamp = '{:%m.%d %H:%M}'.format(datetime.datetime.now())
+		timestamp = '{:%d.%m %H:%M}'.format(datetime.datetime.now())
                 message = {
                     "action": "control",
                     "code": {
                         "device": self.get_device_name_by_node(self.node),
                         "values": {
-                            "label": '{} {}° C / {} V'.format(timestamp, temp, volts),
+                            "label": '{} {}° {}V'.format(timestamp, temp, volts),
                             "color": "black"
                         }
                     }
