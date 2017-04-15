@@ -96,7 +96,7 @@ class Pilight(threading.Thread):
             self.connect()
             time.sleep(.1)
             if self.hasServer and self.identify():
-                temp = "{}".format(self.temp)
+                temp = "{:.1f}".format(float(self.temp.strip(chr(0))))
                 temp = temp.strip(chr(0))
                 volts = "{:.2f}".format(float(self.batt))
                 volts = volts.strip(chr(0))
