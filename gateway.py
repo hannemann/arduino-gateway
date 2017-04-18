@@ -20,6 +20,8 @@ clients = [
 
 class Gateway:
 
+    signal_pass = False
+
     def __init__(self, device):
 
         if device is None:
@@ -51,8 +53,12 @@ class Gateway:
                     payload = message.split()
                     for client in self.clients:
                         client.execute(payload)
-                except serial.serialutil.SerialException:
-                    pass
+                except BaseException, e:
+                    if self.signal_pass is True:
+                        self.signal_pass = False
+                        pass
+                    else:
+                        raise e
 
         except KeyboardInterrupt:
             for client in self.clients:
@@ -66,6 +72,7 @@ class Gateway:
     def sig_handler(self, signum, frame):
         if signum == signal.SIGUSR1:
             self.write("1|TD|NULL")
+            self.signal_pass = True
 
 
 def main(argv):
