@@ -34,7 +34,7 @@ class Valves(Db):
         if len(self.payload) > 3 and self.payload[1].find('G/V') == 0:
             self.receiver_id = self.payload[0]
             return "GET"
-        if len(self.payload) > 3 and self.payload[1].find('G/S') == 0:
+        if len(self.payload) > 3 and self.payload[1].find('S/V') == 0:
             self.receiver_id = self.payload[0]
             return "SET"
         return False
